@@ -1,0 +1,20 @@
+<% if is_blog_article? %>
+  <% content_for :blog_article, yield %>
+  <%= partial settings.blog_article_template %>
+<% else %>
+  <% data.blog.articles[0...5].each_with_index do |article, i| %>
+  <article>
+    <time><%= article.date.strftime('%Y-%m-%d') %></time>
+
+    <div class="body">
+      <h1><a href="<%= article.url %>"><%= article.title %></a></h1>
+      <%= article.body %>
+      <strong>Tags:</strong> <ul class="tags">
+        <% article['tags'].split(',').each do |tag| %>
+        <li><a href="tags/<%= tag %>.html"><%= tag %></a></li>
+        <% end %>
+      </ul>
+    </div>
+  </article>
+  <% end %>
+<% end %>

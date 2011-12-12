@@ -1,0 +1,99 @@
+@import "base";
+@import "normalize";
+
+@import "compass";
+@import "compass/typography";
+@import "compass/css3";
+//@include establish-baseline();
+
+body {
+    a {
+        color: blue;
+    }
+    font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    @media screen and (max-width: 600px) {
+        #main aside {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 200px) {
+        article time {
+            display: none;
+        }
+    }
+    a {
+        @include hover-link();
+        text-decoration: none;
+    }
+    #container {
+        max-width: 1200px;
+        min-width: 100px;
+        margin: 0 auto;
+    }
+    header, footer {
+        font-family: 'Mate SC', serif;
+    }
+    article {
+        time {
+            font-size: 95%;
+            color: adjust-lightness(black, 50%);
+        }
+        @include display-box;
+        @include box-orient(horizontal);
+        @include box-align(stretch);
+        .body {
+            h1 a {
+                color: black;
+            }
+            ul.tags {
+                @include inline-list();
+                @include no-bullets();
+                li {
+                    margin-right: 0.5em;
+                }
+            }
+            @include box-flex(8);
+            padding: 0 0.75em;
+        }
+    }
+    #main aside ul {
+        @include no-bullets();
+        a.subscribe {
+            font-size: 125%;
+            color: orange;
+        }
+    }
+    #main #content {
+        @include box-flex(4);
+    }
+    #main {
+        @include display-box;
+        @include box-orient(horizontal);
+        @include box-align(stretch);
+    }
+    header:not(.article) {
+        border-bottom: 1px solid black;
+        h1 {
+            margin-bottom: 0em;
+        }
+        h2 {
+            font-size: 1em;
+            margin: 0em;
+        }
+        text-align: center;
+        nav ul {
+            @include inline-list();
+            li {
+                margin-left: 0.5em;
+            }
+        }
+    }
+    footer {
+        border-top: 1px solid black;
+        text-align: center;
+        font-size: 0.9em;
+        font-weight: bold;
+    }
+}

@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <link href='http://fonts.googleapis.com/css?family=Mate+SC' rel='dns-prefetch stylesheet' type='text/css'>
-  <link rel="stylesheet" href="stylesheets/base.css">
+  <link rel="stylesheet" href="/stylesheets/base.css">
 </head>
 
 <body>
@@ -22,7 +22,12 @@
     <%= partial "header" %>
     <div id="main">
       <div id="content">
+      <% if is_blog_article? %>
+        <% content_for :blog_article, yield %>
+        <%= partial settings.blog_article_template %>
+      <% else %>
         <%= yield %>
+      <% end %>
       </div>
       <%= partial "aside" %>
     </div>

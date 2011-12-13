@@ -4,17 +4,18 @@
 @import "compass";
 @import "compass/typography";
 @import "compass/css3";
-//@include establish-baseline();
 
 body {
     a {
+        @include hover-link();
+        text-decoration: none;
         color: blue;
     }
     font: "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size: $base-font-size;
     line-height: $base-line-height;
     @media screen and (max-width: 600px) {
-        #main aside {
+        aside {
             display: none;
         }
     }
@@ -22,10 +23,6 @@ body {
         article time {
             display: none;
         }
-    }
-    a {
-        @include hover-link();
-        text-decoration: none;
     }
     #container {
         max-width: 1200px;
@@ -41,8 +38,6 @@ body {
             color: adjust-lightness(black, 50%);
         }
         @include display-box;
-        @include box-orient(horizontal);
-        @include box-align(stretch);
         .body {
             h1 a {
                 color: black;
@@ -57,12 +52,20 @@ body {
             @include box-flex(8);
             padding: 0 0.75em;
         }
+        padding: 1em 0;
     }
-    #main aside ul {
-        @include no-bullets();
-        a.subscribe {
-            font-size: 125%;
-            color: orange;
+    article:not(:last-of-type) {
+        border-bottom: thin solid #D0D0D0;
+    }
+    aside {
+        ul {
+            @include no-bullets();
+            margin: 0;
+            padding: 0;
+            a.subscribe {
+                font-size: 125%;
+                color: orange;
+            }
         }
     }
     #main #content {
@@ -70,8 +73,6 @@ body {
     }
     #main {
         @include display-box;
-        @include box-orient(horizontal);
-        @include box-align(stretch);
     }
     header:not(.article) {
         border-bottom: 1px solid black;

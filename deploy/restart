@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "Rebuilding the application..."
+middleman build
+rsync -av build/ ~/public/us/troutwine/www/
+echo "  DONE"

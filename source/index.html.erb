@@ -1,15 +1,9 @@
-<% data.blog.articles[0...5].each do |article| %>
-<article>
-  <time><%= article.date.strftime('%Y-%m-%d') %></time>
-
-  <div class="body">
-    <h1><a href="<%= article.url %>"><%= article.title %></a></h1>
-    <%= article.body %>
-    <strong>Tags:</strong> <ul class="tags">
-      <% article['tags'].split(',').each do |tag| %>
-      <li><a href="tags/<%= tag %>.html"><%= tag %></a></li>
-      <% end %>
-    </ul>
-  </div>
-</article>
+<ul>
+<% data.blog.articles.each do |article| %>
+  <li>
+    <a href="<%= article.url %>"><%= article.title %></a>
+    <time datetime="<%= article.date %>"><%= article.date.strftime('%d %B %Y') %></time>
+    <%= article.summary %>
+  </li>
 <% end %>
+</ul>

@@ -1,100 +1,76 @@
-@import "base";
-@import "normalize";
+@import "_bootstrap-1.4.0";
 
-@import "compass";
-@import "compass/typography";
-@import "compass/css3";
+//$troutblue: #OF4DA8;
+$blue: #4869D6; //#437DD3;
+$black: adjust-lightness($blue, -40);
+$grey:  scale-lightness(black, 50);
+$darkblue: #0F4DA8;
+$espresso: #1e140b;
 
-body {
+header#banner {
+    font-size: 150%;
+    border-bottom: medium solid $darkblue;
+    padding-top: 0.3em;
+    margin-bottom: 0.25em;
+    h1 {
+        line-height: 0.75em;
+        font-size: 3.5em;
+    }
+    h2 {
+        font-family: 'Comfortaa', cursive;
+        color: $grey;
+    }
+}
+
+a {
+    color: $blue;
+}
+
+.content p {
+    color: $espresso;
+    font-size: 1.1em;
+}
+
+.content ul li:not(:last-child) {
+    margin-bottom: 1em;
+}
+
+time {
+    font-family: 'Comfortaa', cursive;
+    color: $grey;
+}
+
+.content ul li {
+    margin-left: -1em;
+    list-style: none;
     a {
-        @include hover-link();
-        text-decoration: none;
-        color: blue;
+        margin-right: 0.3em;
+        font-size: 2em;
     }
-    font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-size: $base-font-size;
-    line-height: $base-line-height;
-    @media screen and (max-width: 600px) {
-        aside {
-            display: none;
-        }
-    }
-    @media screen and (max-width: 200px) {
-        article time {
-            display: none;
-        }
-    }
-    #container {
-        max-width: 1200px;
-        min-width: 100px;
-        margin: 0 auto;
-    }
-    header, footer {
-        font-family: 'Mate SC', serif;
-    }
-    article {
-        time {
-            font-size: 95%;
-            color: adjust-lightness(black, 50%);
-        }
-        @include display-box;
-        .body {
-            h1 a {
-                color: black;
-            }
-            ul.tags {
-                @include inline-list();
-                @include no-bullets();
-                li {
-                    margin-right: 0.5em;
-                }
-            }
-            @include box-flex(8);
-            padding: 0 0.75em;
-        }
-        padding: 1em 0;
-    }
-    article:not(:last-of-type) {
-        border-bottom: thin solid #D0D0D0;
-    }
-    aside {
-        ul {
-            @include no-bullets();
-            margin: 0;
-            padding: 0;
-            a.subscribe {
-                font-size: 125%;
-                color: orange;
-            }
-        }
-    }
-    #main #content {
-        @include box-flex(4);
-    }
-    #main {
-        @include display-box;
-    }
-    header:not(.article) {
-        border-bottom: 1px solid black;
-        h1 {
-            margin-bottom: 0em;
-        }
-        h2 {
-            font-size: 1em;
-            margin: 0em;
-        }
-        text-align: center;
-        nav ul {
-            @include inline-list();
-            li {
-                margin-left: 0.5em;
-            }
-        }
-    }
-    footer {
-        border-top: 1px solid black;
-        text-align: center;
-        font-size: 0.9em;
-        font-weight: bold;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+footer {
+    border-top: thin solid $darkblue;
+    padding-top: 0.5em;
+    font-family: 'Comfortaa', cursive;
+    color: $grey;
+}
+
+article {
+    margin-left: 1em;
+    font-size: 1.2em;
+}
+article header {
+    margin-bottom: 0.5em;
+    h1 {
+        display: inline;
+        color: adjust-lightness($espresso, -5);
+        margin-top: 0;
+        margin-right: 0.3em;
+        font-size: 2.4em;
     }
 }

@@ -12,26 +12,30 @@
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link href='http://fonts.googleapis.com/css?family=Mate+SC' rel='dns-prefetch stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/stylesheets/base.css">
+  <link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
+
+  <%= stylesheet_link_tag 'base' %>
+  <%= favicon_tag 'favicon.png' %>
+  <%= javascript_include_tag 'app' %>
 </head>
 
 <body>
+  <div class="container">
+  <%= partial "header" %>
 
-  <div id="container">
-    <%= partial "header" %>
-    <div id="main">
-      <div id="content">
-      <% if is_blog_article? %>
-        <% content_for :blog_article, yield %>
-        <%= partial settings.blog_article_template %>
-      <% else %>
-        <%= yield %>
-      <% end %>
-      </div>
-      <%= partial "aside" %>
-    </div>
+  <div class="content">
+        <% if is_blog_article? %>
+          <% content_for :blog_article, yield %>
+          <%= partial settings.blog_article_template %>
+        <% else %>
+          <%= yield %>
+        <% end %>
+
+        <%= partial "aside" %>
+  </div>
+
     <%= partial "footer" %>
-  </div> <!--! end of #container -->
+  </div>
 </body>
+
 </html>

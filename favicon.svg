@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="128px"
+   height="128px"
+   id="RSSicon"
+   viewBox="0 0 256 256"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="favicon.svg"
+   inkscape:export-filename="/home/blt/projects/us/troutwine/website/blog/source/images/favicon.png"
+   inkscape:export-xdpi="22.900919"
+   inkscape:export-ydpi="22.900919">
+  <metadata
+     id="metadata3949">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1278"
+     inkscape:window-height="798"
+     id="namedview3947"
+     showgrid="true"
+     inkscape:zoom="3.2151261"
+     inkscape:cx="89.940964"
+     inkscape:cy="55.576187"
+     inkscape:window-x="0"
+     inkscape:window-y="1080"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="RSSicon"
+     inkscape:snap-global="false"
+     showguides="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid8639" />
+  </sodipodi:namedview>
+  <defs
+     id="defs3918">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8507"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8503"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8347"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8313"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8303"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="skeletal"
+       id="path-effect8297"
+       is_visible="true"
+       pattern="M 0,0 0,10 10,5 z"
+       copytype="single_stretched"
+       prop_scale="1"
+       scale_y_rel="false"
+       spacing="0"
+       normal_offset="0"
+       tang_offset="0"
+       prop_units="false"
+       vertical_pattern="false"
+       fuse_tolerance="0" />
+    <inkscape:path-effect
+       effect="skeletal"
+       id="path-effect8293"
+       is_visible="true"
+       pattern="M 0,0 0,10 10,5 z"
+       copytype="single_stretched"
+       prop_scale="1"
+       scale_y_rel="false"
+       spacing="0"
+       normal_offset="0"
+       tang_offset="0"
+       prop_units="false"
+       vertical_pattern="false"
+       fuse_tolerance="0" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8291"
+       is_visible="true" />
+    <inkscape:path-effect
+       effect="skeletal"
+       id="path-effect8287"
+       is_visible="true"
+       pattern="m -23.272727,-10.666667 0,10.00000033 10,-5.00000003 z"
+       copytype="single_stretched"
+       prop_scale="1"
+       scale_y_rel="false"
+       spacing="0"
+       normal_offset="0"
+       tang_offset="0"
+       prop_units="false"
+       vertical_pattern="false"
+       fuse_tolerance="0" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect8285"
+       is_visible="true" />
+    <linearGradient
+       x1="30.06"
+       y1="30.06"
+       x2="225.94001"
+       y2="225.94001"
+       id="RSSg"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-432.48485,-30.060606)">
+      <stop
+         offset="0.0"
+         stop-color="#E3702D"
+         id="stop3921" />
+      <stop
+         offset="0.1071"
+         stop-color="#EA7D31"
+         id="stop3923" />
+      <stop
+         offset="0.3503"
+         stop-color="#F69537"
+         id="stop3925" />
+      <stop
+         offset="0.5"
+         stop-color="#FB9E3A"
+         id="stop3927" />
+      <stop
+         offset="0.7016"
+         stop-color="#EA7C31"
+         id="stop3929" />
+      <stop
+         offset="0.8866"
+         stop-color="#DE642B"
+         id="stop3931" />
+      <stop
+         offset="1.0"
+         stop-color="#D95B29"
+         id="stop3933" />
+    </linearGradient>
+  </defs>
+  <path
+     sodipodi:type="arc"
+     style="fill:#4869d6;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+     id="path8633"
+     sodipodi:cx="65.740433"
+     sodipodi:cy="57.000332"
+     sodipodi:rx="46.675709"
+     sodipodi:ry="46.675709"
+     d="m 112.41614,57.000332 a 46.675709,46.675709 0 1 1 -93.351416,0 46.675709,46.675709 0 1 1 93.351416,0 z"
+     transform="matrix(2.7272448,0,0,2.7272448,-51.273132,-28.12133)" />
+  <path
+     sodipodi:type="star"
+     style="fill:#ffa100;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+     id="path8635"
+     sodipodi:sides="4"
+     sodipodi:cx="37.323574"
+     sodipodi:cy="26.915319"
+     sodipodi:r1="10.583484"
+     sodipodi:r2="40.705708"
+     sodipodi:arg1="0.89366875"
+     sodipodi:arg2="1.6790669"
+     inkscape:flatsided="false"
+     inkscape:rounded="4.13"
+     inkscape:randomized="0"
+     d="M 43.954729,35.163829 C -65.660674,123.28602 172.74654,82.580672 32.924949,67.382673 -106.89664,52.184675 117.19725,143.16188 29.075064,33.546474 -59.047125,-76.068928 -18.341778,162.33829 -3.1437798,22.516695 12.054219,-117.3049 -78.922984,106.789 30.692419,18.66681 140.30782,-69.45538 -98.099393,-28.750033 41.722199,-13.552034 181.54379,1.6459642 -42.550106,-89.331239 45.572084,20.284165 133.69427,129.89957 92.988926,-108.50765 77.790928,31.313944 62.592929,171.13554 153.57013,-52.958361 43.954729,35.163829 z"
+     transform="matrix(1.645781,0.44098568,-0.44098568,1.645781,78.493135,65.856165)"
+     inkscape:export-filename="/home/blt/projects/us/troutwine/website/blog/source/images/path8635.png"
+     inkscape:export-xdpi="22.900919"
+     inkscape:export-ydpi="22.900919" />
+</svg>

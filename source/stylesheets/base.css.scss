@@ -1,7 +1,6 @@
 @import "_bootstrap-1.4.0";
 
-//$troutblue: #OF4DA8;
-$blue: #4869D6; //#437DD3;
+$blue: adjust-lightness(#4869D6, -10);
 $black: adjust-lightness($blue, -40);
 $grey:  scale-lightness(black, 50);
 $darkblue: #0F4DA8;

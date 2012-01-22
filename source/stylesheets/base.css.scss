@@ -30,7 +30,7 @@ a {
     font-size: 1.1em;
 }
 
-.content ul li:not(:last-child) {
+ul.index li:not(:last-child) {
     margin-bottom: 1em;
 }
 
@@ -39,13 +39,17 @@ time {
     color: $grey;
 }
 
-.content ul li {
+ul.index li {
     margin-left: -1em;
     list-style: none;
-    a {
+    a.title {
         margin-right: 0.3em;
         font-size: 2em;
     }
+}
+
+.content ul li {
+    font-size: 1.1em;
 }
 
 a:hover {

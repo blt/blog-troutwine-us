@@ -1,7 +1,7 @@
-<ul>
+<ul class="index">
 <% data.blog.articles.each do |article| %>
   <li>
-    <a href="<%= article.url %>"><%= article.title %></a>
+    <a class="title" href="<%= article.url %>"><%= article.title %></a>
     <time datetime="<%= article.date %>"><%= article.date.strftime('%d %B %Y') %></time>
     <%= article.summary %>
   </li>

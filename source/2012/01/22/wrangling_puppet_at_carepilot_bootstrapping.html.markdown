@@ -100,9 +100,9 @@ Considerations:
 
 * Puppet in squeeze-backports is version 2.7.6 where current puppet is 2.7.9.
 * Debian's puppet requires ruby 1.8.7 where mainstream ruby development largely
-  targeting the 1.9.
+  targets 1.9.
 * Puppet's central master has memory-leak issues with ruby 1.8.7.
-* We'll be installing system utilities through rubygems anyway later in this
+* We'll be installing system utilities through rubygems later in this
   series.
 
 Rather than suffer with ruby 1.8.7 puppet will be installed as a gem, the
@@ -177,7 +177,7 @@ unpleasant work and you'll spend a fair bit of time on it, continuously, but it
 can be done. I won't do it here and in this series I'll assume that you'll have
 installing the following on the base system:
 
-    base:~# aptitude install openssl ruby1.9.1-dev build-essential
+    base:~# aptitude install ruby1.9.1-dev build-essential
 
 To my knowledge there's no automatic alternatives system for ruby. Fun thing
 about Debian, though, is that it's:
@@ -194,9 +194,9 @@ Folks on the various mailing lists are _super_ helpful, however.
       --slave /usr/bin/gem gem /usr/bin/gem1.9.1
 
 You _could_ do something similar for 1.8 as well, but I'm not going to
-bother. You will need to have git present on all of your systems:
+bother. You will need to have git and openssl present on all of your systems:
 
-    base:~# aptitude install git
+    base:~# aptitude install git openssl
 
 ### Installing Puppet
 
@@ -309,8 +309,7 @@ In `/etc/supervisor/conf.d/puppetmaster.conf` create a file with this content:
     [program:puppetmaster]
     numprocs=3
     process_name=%(process_num)02d_%(program_name)s
-    command=thin start -e development --log
-    /var/log/puppet/%(process_num)02dmaster.log --socket /var/run/puppet/master.%(process_num)02d.sock --user puppet --group puppet --chdir /etc/puppet -R /etc/puppet/config.ru
+    command=thin start -e development --log /var/log/puppet/%(process_num)02dmaster.log --socket /var/run/puppet/master.%(process_num)02d.sock --user puppet --group puppet --chdir /etc/puppet -R /etc/puppet/config.ru
     startsecs=5
 
 Thin is run in development mode so that it will not daemonize. The supervisord
@@ -341,7 +340,7 @@ because we'd be forced to tweaking our actions slightly for every new domain;
 boot-strapping should be as quick and as simple as possible. Else, you'll
 probably forget a step and spend forty-five frustrating minutes wondering why
 nothing works when I've been so _blase_ in declaring the straight-forward nature
-of this work. I have.
+of this work.
 
 - - -
 
@@ -450,15 +449,15 @@ You should be able to restart nginx and issue
 
     puppet:~# puppet agent --test --noop
 
-with no problems report. The final message output will be:
+with no problems to report. The final message output will be:
 
 > Exiting; no certificate found and waitforcert is disabled
 
 This means that the puppet agent did make a connection to the puppet master
 server but rejected sending any catalogs down as the key presented by the client
-was unknown to the server: you must _sign_ the certificate.
+was unknown to the server: you must sign the certificate.
 
-    puppet:~# puppet cert sign puppet.troutwine.us
+    puppet:~# puppet cert --sign puppet.troutwine.us
     notice: Signed certificate request for puppet.troutwine.us
     notice: Removing file Puppet::SSL::CertificateRequest puppet.troutwine.us at '/var/lib/puppet/ssl/ca/requests/puppet.troutwine.us.pem'
 

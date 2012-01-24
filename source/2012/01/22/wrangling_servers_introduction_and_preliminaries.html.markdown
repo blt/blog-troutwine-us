@@ -81,7 +81,7 @@ alternatives--Chef being the most common--but the kit I'm going to outline here
 uses Puppet for two reasons:
 
 * I went to [University](http://pdx.edu) and did some projects with a fellow completely
-  enamored of it--I believe the good [IT department](cat.pdx.edu) makes heavy
+  enamored of it--I believe the good [IT department](http://cat.pdx.edu) makes heavy
   use of it.
 * I lurked for a few days on `#chef` and `#puppet` and found the conversation in
   `#puppet` more civil: it is _vitally_ important that completely naive and
@@ -91,7 +91,7 @@ uses Puppet for two reasons:
   irritable in otherwise kind people.)
 
 The base OS used for this kit is Debian Stable, Squeeze at the time of this
-writing. With Puppet being written in [ruby](ruby-lang.org) and Debian support
+writing. With Puppet being written in [ruby](http://ruby-lang.org) and Debian support
 for ruby being somewhat crummy--the Debian Ruby Team, as I understand it, is
 understaffed and the ruby community has values somewhat hostile to Debian's
 own--there's a hassle here. Namely: do I install puppet from

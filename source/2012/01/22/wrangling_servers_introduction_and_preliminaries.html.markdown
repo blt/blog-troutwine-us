@@ -1,6 +1,7 @@
 ---
 title: Wrangling Servers -- Introduction and Preliminaries
 date: 2012/01/20
+tags: puppet
 ---
 
 When I was brought on to [CarePilot](https://www.carepilot.com) as Systems
@@ -9,16 +10,16 @@ no redundancy and nothing in the way of configuration control. I kept nothing of
 that box--even moving away from EC2 to Rackspace--and CarePilot runs on kit
 built up from scratch, all the way up and down from the DB replication and
 backups, to the application deployment process to high-level monitoring and
-notifications.  It's been my goal at CarePilot to automate, within a reasonable
+notifications.  It was my goal at CarePilot to automate, within a reasonable
 degree, the maintenance and repair of the machines. Some things I've invented,
 others I've picked up and made use of.
 
 While the CarePilot kit was custom crafted, I believe that it's component
 pieces--released under commercial-venture friendly open-source licenses--could
 be used as the basis of most any tech-startup. This is the first article in a
-series that will document the kit I've produced at CarePilot, introducing some
-of the open-source bits of tech I've created and be a bit of a tutorial for
-those I merely make use of.
+series that will document the kit I've produced, introducing some of the
+open-source bits of tech I've created and be a bit of a tutorial for those I
+merely make use of.
 
 If at the end of these articles you can't piece together a stable base for a new
 business let me know: _I wrote something wrong_.
@@ -31,39 +32,32 @@ READMORE
 
 <i>Kindly note, I don't speak for CarePilot. The opinions and preferences I
 express here are not necessarily representative of the views of CarePilot. I'm
-just a guy talking on his own into the void who happens to work with a great
+just a guy talking on his own into the void who happened to work with a great
 bunch of folks.</i>
 
 ***
 
-As I write this each of the CarePilot machines are shipping their syslogs, other
-system logs and data to a central master over a message bus--indirectly in the
-case of rsyslog shipping--to a host of message bus savvy listener robots, some
-of which provide monitoring reports to me but the majority of which are able to
-take action and repair most detected faults, the steps of which are
-logged. Faults that can't be repaired become a notification to a human. System
-configuration is managed automatically and version controlled. Application
-deployment to staging and production systems are handled in something resembling
-Heroku's method: a single git push triggers a process that deploys to all
-application servers--or central configuration manager, for _my_ projects--in
-real-time, again making use of the message bus.
+Imagine that you're employee #3 of a startup and are getting pulled into more
+Ops work as load on your few EC2 boxes gets up high: all day you fiddle with
+this and that, then _bam_ one of the servers go offline and you have to piece a
+new image up by hand. The site is offline, meanwhile, and employees #1 and #2
+can't help but give you the stink-eye. Or, imagine that you're the kind of
+person to release small profit generating web-apps every few months and one has
+finally taken off. Success! But the load on the $36 Heroku instance you're
+running on is too high and the site's suffering. You can crank up the Heroku
+toggles to meet the load, but you're going to lose profitability that way. Time
+to move to virtual hosting, keeping in mind that you _have_ to keep your Ops
+work to a minimum.
 
-A CarePilot inspired kit is:
+What do you do, in either case? Use puppet. Puppet is a relatively easy to use
+configuration management tool, well documented and backed by a company of [nice
+folks](http://puppetlabs.com/) and [nice
+users](http://groups.google.com/group/puppet-users). Puppet is _not_ an easy
+thing to bootstrap, on the other hand. This article, and the one that follows
+it, will walk you through getting a production-ready puppet setup bootstrapped,
+along with a few extra goodies that I _think_ you'll find very helpful.
 
-* a central [Puppet](http://puppetlabs.com) master,
-* a single [Postgresql](http://postgresql.org) master with one or more hot-standby
-  slaves,
-* [nginx](http://nginx.org) fronted application servers,
-* a [memcached](http://memcached.org) host (with options for expansion),
-* a central log collection and analysis server,
-* a [Redmine](http://redmine.org) host for issue tracking and planning,
-* a central [gitolite](https://github.com/sitaramc/gitolite) server for version
-  control and application deployment and
-* a [RabbitMQ](http://rabbitmq.org) host (with options for expansion to multiple hosts)
-  for transporting event notifications, logs and application messages.
-
-There's a small cadre of tech that I've invented especially for this kit which
-we'll get to in due course. In this article I'll walk you through:
+Should take a few hours. In this article I'll walk you through:
 
 * setting up a base box image,
 * version controlling puppet configuration right off and
@@ -74,34 +68,32 @@ be _with_ configuration management: take heart, this is the _hard_ part.
 
 ## Bootstrapping Puppet
 
-The absolute heart of this whole setup is Puppet: without it configuration is a
-one-off affair, down boxes are not easily replaced and there exists no central
-repository for understanding the arrangement of the whole system. There are
-alternatives--Chef being the most common--but the kit I'm going to outline here
-uses Puppet for two reasons:
+The absolute heart of a managed server cluster, as conceived here, is Puppet:
+without it configuration is a one-off affair, down boxes are not easily replaced
+and there exists no central repository for understanding the arrangement of the
+whole system. There are alternatives--Chef being the most common--but the kit
+I'm going to outline here uses Puppet for two reasons:
 
-* I went to [University](http://pdx.edu) and did some projects with a fellow completely
-  enamored of it--I believe the good [IT department](http://cat.pdx.edu) makes heavy
-  use of it.
-* I lurked for a few days on `#chef` and `#puppet` and found the conversation in
-  `#puppet` more civil: it is _vitally_ important that completely naive and
-  ignorant questions asked in good faith are met in kind by the community that
-  surrounds the tool you intend to use. (I realize that two days does not a
-  strong statistical sampling make and that IRC tends to bring out something
-  irritable in otherwise kind people.)
+* I went to [University](http://pdx.edu) and did some projects with a fellow
+  completely enamored of it--I believe the good [IT
+  department](http://cat.pdx.edu) makes heavy use of it.
+* I lurked in the Chef and Puppet communities for a time and found the
+  conversation in Puppet's more helpful to the almost-hopelessly
+  ignorant. Posting a puppet related question to
+  [ServerFault](http://serverfault.com/questions/tagged/puppet) and having a
+  detailed answer within the half-hour is a fine thing.
 
-The base OS used for this kit is Debian Stable, Squeeze at the time of this
-writing. With Puppet being written in [ruby](http://ruby-lang.org) and Debian support
-for ruby being somewhat crummy--the Debian Ruby Team, as I understand it, is
-understaffed and the ruby community has values somewhat hostile to Debian's
-own--there's a hassle here. Namely: do I install puppet from
+The base OS used for this kit is Debian Squeeze. With Puppet being written in
+[ruby](http://ruby-lang.org) and Debian support for ruby being somewhat
+crummy--the Debian Ruby Team, as I understand it, is understaffed and the ruby
+community has values somewhat hostile to Debian's own--there's a hassle
+here. Namely: do I install puppet from
 [rubygems](http://en.wikipedia.org/wiki/Rubygems) or from Debian's packages?
 Considerations:
 
-* Puppet in squeeze-backports is version 2.7.6 where current puppet is 2.7.9.
 * Debian's puppet requires ruby 1.8.7 where mainstream ruby development largely
   targets 1.9.
-* Puppet's central master has memory-leak issues with ruby 1.8.7.
+* Puppet's central master has had memory-leak issues with ruby 1.8.7.
 * We'll be installing system utilities through rubygems later in this
   series.
 
@@ -308,8 +300,8 @@ In `/etc/supervisor/conf.d/puppetmaster.conf` create a file with this content:
 
     [program:puppetmaster]
     numprocs=3
-    process_name=%(process_num)02d_%(program_name)s
-    command=thin start -e development --log /var/log/puppet/%(process_num)02dmaster.log --socket /var/run/puppet/master.%(process_num)02d.sock --user puppet --group puppet --chdir /etc/puppet -R /etc/puppet/config.ru
+    command=/usr/bin/thin start -e development --socket /var/run/puppet/master.%(process_num)02d.sock --user puppet --group puppet --chdir /etc/puppet -R /etc/puppet/config.ru
+    process_name=%(program_name)s_%(process_num)02d
     startsecs=5
 
 Thin is run in development mode so that it will not daemonize. The supervisord
@@ -370,43 +362,46 @@ restricted privileged writing of pidfiles, domain sockets and logs:
 With thin running all that remains is getting nginx to front for it. Edit
 `/etc/nginx/sites-enabled/default` to read
 
-    upstream puppet-production {
-        server   unix:/var/run/puppet/master.00.sock;
-        server   unix:/var/run/puppet/master.01.sock;
-        server   unix:/var/run/puppet/master.02.sock;
-    }
+<pre>
+server {
+  # I'm assuming that 'puppet' resolves to a private IP. Don't run Puppet on the public internet!
+  listen puppet:8140;
 
-    server {
-        listen puppet:8140;
-        include conf.d/puppet_ssl.conf;
-        include conf.d/puppet_proxy_set_header.conf;
+  ssl on;
+  ssl_certificate /var/lib/puppet/ssl/certs/puppet.pem;
+  ssl_certificate_key /var/lib/puppet/ssl/private_keys/puppet.pem;
+  ssl_ciphers ALL:-ADH:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP;
+  ssl_client_certificate  /var/lib/puppet/ssl/ca/ca_crt.pem;
+  ssl_verify_client optional;
 
-        default_type application/x-raw;
+  # Force all filetypes to be sent raw. (Ouch!)
+  types { }
+  default_type application/x-raw;
 
-        location /production/file_content/ {
-            rewrite ^/production/file_content/([^/]+)/(.*) /$1/files/$2;
-            break;
-            root /etc/puppet/modules/;
-        }
-        location / {
-            proxy_pass http://puppet-production;
-        }
-    }
+  # serving static files from mount point
+  location /production/file_content/files/ {
+    ## problem here is that puppet factor doesn't give compact CIDR for network
+    # allow   192.168.56.0/16;
+    # deny    all;
 
-We're causing the local nginx server to respond to hostname 'puppet' requests
-by passing them on to the puppet master backends responding over the domain sockets we
-defined in the last section. Nginx handles the SSL mongering for puppet in
-`/etc/nginx/conf.d/puppet_ssl.conf`
+    alias /etc/puppet/files/;
+  }
 
-    ssl on;
-    ssl_certificate /var/lib/puppet/ssl/certs/puppet.pem;
-    ssl_certificate_key /var/lib/puppet/ssl/private_keys/puppet.pem;
-    ssl_ciphers ALL:-ADH:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP;
-    ssl_client_certificate  /var/lib/puppet/ssl/ca/ca_crt.pem;
-    ssl_verify_client       on;
+  # serving static files from modules mounts
+  location ~ /production/file_content/[^/]+/files/ {
+    ## see above
+    # allow   192.168.56.0/16;
+    # deny    all;
 
-and sets proxy values in `/etc/nginx/conf.d/puppet_proxy_set_header.conf`
+    root /etc/puppet/modules;
 
+    # rewrite /production/file_content/module/files/file.txt
+    # to /module/file.text
+    rewrite ^/production/file_content/([^/]+)/files/(.+)$  $1/$2 break;
+  }
+
+  location / {
+    proxy_pass http://puppet-production;
     proxy_redirect   off;
     proxy_set_header Host             $host;
     proxy_set_header X-Real-IP        $remote_addr;
@@ -416,6 +411,21 @@ and sets proxy values in `/etc/nginx/conf.d/puppet_proxy_set_header.conf`
     proxy_set_header X-Client-DN      $ssl_client_s_dn;
     proxy_set_header X-SSL-Subject    $ssl_client_s_dn;
     proxy_set_header X-SSL-Issuer     $ssl_client_i_dn;
+  }
+}
+</pre>
+
+and `/etc/nginx/conf.d/puppet-production-upstream.conf` to read:
+
+    upstream puppet-production {
+      server unix:/var/run/puppet/master.00.sock;
+      server unix:/var/run/puppet/master.01.sock;
+      server unix:/var/run/puppet/master.02.sock;
+    }
+
+We're causing the local nginx server to respond to hostname 'puppet' requests
+by passing them on to the puppet master backends responding over the domain sockets we
+defined in the last section. Nginx handles the SSL mongering for puppet and sets proxy values, as defined in the 'default' vhost.
 
 Note that, thanks to our use of `certname` in puppet configuration we can refer
 to the generic 'puppet.pem' in the ssl configuration. I won't elaborate on the
@@ -507,13 +517,9 @@ In the next article we'll accomplish three things:
 * the self-hosting of puppet and
 * the tech needed to get a more convenient deployment model going.
 
-The article after next will cover the inclusion of ops management tools, including:
+Articles thereafter will cover the inclusion of ops management tools, including:
 
 * [Puppet Dashboard](http://docs.puppetlabs.com/dashboard/manual/1.2/bootstrapping.html) and
 * Redmine.
-
-I'll do a walk-through of the puppet modules in the next article, but thereafter
-will tend to gloss over details and link to projects' documentation, those that
-warrant it. Anyway, that's in the future.
 
 Happy hacking!

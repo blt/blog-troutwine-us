@@ -31,7 +31,7 @@ a {
 }
 
 ul.index li:not(:last-child) {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
 }
 
 time {
@@ -83,13 +83,22 @@ code {
     padding: 0.2em 0;
 }
 
+article.tag {
+    p {
+        font-size: 1.4em;
+        line-height: 1.2em;
+    }
+}
+
 .poetry {
+    font-family: 'Comfortaa', cursive;
+    margin-left: 2em;
+    margin-bottom: 0.75em;
     pre {
-        font-size: 0.9em;
         font-family: 'Comfortaa', cursive;
+        font-size: 0.9em;
         background: none;
         border: none;
-        margin-left: 2em;
         margin-bottom: -0.75em;
     }
     small {

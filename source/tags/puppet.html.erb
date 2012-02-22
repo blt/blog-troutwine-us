@@ -1,0 +1,32 @@
+<article class="tag">
+<h1>Puppet: Introduction</h1>
+
+<p>
+These articles document the process of bootstrapping a production-ready Puppet
+configuration and adapting that base to the needs of something not-unlike a web
+startup. Pre-written modules are used; a determined user should be able to go
+from nothing to functioning system in a working day.
+</p>
+
+<p>
+If you you've outgrown managed hosting and need to run your own Ops but don't
+quite know how, these articles are for you.
+</p>
+
+
+</article>
+
+<hr>
+
+<ul class="index">
+<% data.blog.articles.reverse.each do |article| %>
+  <li>
+  <% if article.tags == 'puppet' %>
+    <a class="title" href="<%= article.url %>"><%= article.title %></a>
+    <time datetime="<%= article.date %>"><%= article.date.strftime('%d %B %Y') %></time>
+    <%= article.summary %>
+  <% end %>
+  </li>
+<% end %>
+</ul>
+

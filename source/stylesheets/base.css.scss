@@ -1,4 +1,5 @@
-@import "_bootstrap-1.4.0";
+@import "bootstrap/lib/bootstrap";
+@import "bootstrap/lib/responsive";
 
 $blue: adjust-lightness(#4869D6, -10);
 $black: adjust-lightness($blue, -40);

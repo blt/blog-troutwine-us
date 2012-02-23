@@ -70,6 +70,9 @@ article {
 }
 article header {
     margin-bottom: 0.5em;
+    small {
+        font-size: 70%;
+    }
     h1 {
         display: inline;
         color: adjust-lightness($espresso, -5);

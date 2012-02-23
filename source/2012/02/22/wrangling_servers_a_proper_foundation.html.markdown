@@ -5,9 +5,9 @@ tags: puppet
 ---
 
 This is the second in a series of articles that walk-through setting up and
-maintaining a kit sufficient to run a tech business on.. Please make yourself
+maintaining a kit sufficient to run a tech business on. Please make yourself
 familiar with the
-[first article](../22/wrangling_servers_introduction_and_preliminaries.html), in
+[first article](../../01/22/wrangling_servers_introduction_and_preliminaries.html), in
 which a base image box was setup and a puppet central master box was derived
 from the base.
 

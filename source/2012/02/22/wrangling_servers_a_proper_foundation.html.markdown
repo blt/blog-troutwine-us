@@ -5,8 +5,8 @@ tags: puppet
 ---
 
 This is the second in a series of articles that walk-through setting up and
-maintaining a kit sufficient to run a tech business on top of. Please make
-yourself familiar with the
+maintaining a kit sufficient to run a tech business on.. Please make yourself
+familiar with the
 [first article](../22/wrangling_servers_introduction_and_preliminaries.html), in
 which a base image box was setup and a puppet central master box was derived
 from the base.
@@ -16,8 +16,8 @@ puppet configuration and put together a push-style deployment system for every
 manner of source code.
 
 As the deployment system is best put in place in the context of a reasonable
-puppet setup we'll be chicken-egging it here for a short bit but, don't worry,
-there's much less work in this second piece than the first. Much less.
+puppet setup we'll be chicken-egging it here for a short bit, but, don't worry,
+there's much less work in this second piece than the first.
 
 READMORE
 
@@ -72,21 +72,21 @@ These files you should recall from the first article.
 With no deployment rig in place, we'll begin by muddling through and relay
 rsyncing code into place by hand, gradually elaborating on the process up to the
 final method. I'm aware of some folks that rsync their configuration directly
-into place--from developer machine to production system--but I resist doing
-that for a few reasons. Firstly, if /etc/puppet is to be the location of puppet
+into place--from developer machine to production system--but I resist doing that
+for a few reasons. Firstly, if /etc/puppet is to be the location of puppet
 configuration _and_ user/group puppet is to own this directory the user puppet
 must be granted remote login access. The puppet user _should not_ be granted any
-manner of login access as the data it owns is used, without suspicion, to
+manner of login access because the data it owns is used, without suspicion, to
 manipulate all the systems in your cluster: any possible breach of the puppet
 user account by a remote party would be disastrous. Secondly, to mitigate any
 possible breeches of the puppet user, our puppet configuration will be deployed
 on a read-only filesystem. Any attacker that _might_ gain access to the puppet
-user will be unable alter data owned by that user: the R/O filesystem will be
+user will be unable to alter data owned by that user: the R/O filesystem will be
 mounted by root and unalterable except by the root user. (Other attack vectors
-exist, which we'll address later through network design.)
+exist; we'll address these later through network design.)
 
 First, rsync the configuration codebase to your puppet box. Recall that I'm
-running a virtual box instance on a host-only network, I have the localhost
+running a virtual box instance on a host-only network; I have the localhost
 puppet IP alias as localpuppet in `/etc/hosts` and I've an ssh-key accessible
 account on the puppet master box.
 
@@ -115,7 +115,7 @@ the previous article. What we're going to need now are puppet modules to host
 puppet itself. This very task is the over-saturated 'Hello World' of puppet, to
 the exclusion of other, more interesting, works. Here's what I'm going to do: in
 this article we'll plug submodules into the repository we've created and edit a
-file or two. Bam: self-hosting puppet. If you're interested in the details, if
+file or two. Bam: self-hosting puppet. If you're interested in the details or if
 you need the tutorial, dive into the source of the submodules introduced. Those
 I've written are documented sufficiently to act as a tutorial for the
 determined.
@@ -132,7 +132,7 @@ this file is all that is available to a puppet agent.
 
 The first line pulls in all of our node definitions. In puppet, a 'node' is a
 machine type. Exact demarcation is left up to the user but determined by machine
-hostname. We'll use a mixture of 'type' and 'typeNumber', for instance, 'puppet'
+hostname. We'll use a mixture of 'type' and 'typeNumber', 'puppet'
 and 'db0' being exemplars of both methods, respectively. More of that
 shortly. The second block sets the shell path for all command invocations. It's
 not strictly necessary to set this--puppet can sometimes figure out your path
@@ -206,8 +206,10 @@ control, finally.
     $ git add * && git commit -m "Initial commit"
 
 Congratulations: your puppet configuration is now checked into version
-control. Add any remote repositories you might care to and push you code up and
-away, reserving the name 'production' for use in just a little bit.
+control. Add any remote repositories you might care to and push your code up and
+away to Github or some other reasonably disaster-proof repository host. I tend
+to use the remote branch name 'backup' for this need and reserve 'production'
+for the fork that will be deployed to live puppet master.
 
 ## Deployment
 
@@ -218,7 +220,7 @@ The deployment strategy we're going to build requires:
 
 * A central git repository for 'blessed' production / staging / testing repos.
 * A message bus.
-* An message to command invocation server.
+* A message to command the invocation server.
 
 The two options that I'd like to make you aware of for this last point are
 [mcollective](http://puppetlabs.com/mcollective/introduction/) and my
@@ -251,9 +253,9 @@ The slug building hook that I'll introduce here is primitive: it simple-mindedly
 strips out git metadata and bundles all the source-code into a single squashfs
 file. This is great for puppet configurations, less so for complex
 applications. Adding heuristic running of a project's Makefile, Rakefile, ant or
-otherwise script is not at all difficult; I just didn't get around to it. If
-this becomes a problem for you and I've not fixed it up between writing this and
-your involvement,
+another script is not at all difficult; I just didn't get around to it. If this
+becomes a problem for you and I've not fixed it up between writing this and your
+involvement,
 [take out an issue](https://github.com/blt/puppet-slugbuild/issues)?
 
 ### A central git repository
@@ -281,17 +283,19 @@ Now, switch back to the puppet master
       git.troutwine.us (8E:A8:C0:03:9D:53:1A:CA:FC:25:16:82:88:F8:3F:B4)
 
 The FQDN will be different for you (most likely) but you should see the git box
-waiting to have its certificate signed. Just:
+waiting to have its certificate signed.
 
     puppet:~# puppet cert sign git.troutwine.us
     notice: Signed certificate request for git.troutwine.us
     notice: Removing file Puppet::SSL::CertificateRequest git.troutwine.us at '/var/lib/puppet/ssl/ca/requests/git.troutwine.us.pem'
 
-Substituting, of course, for your domain. We're going to use a
+Substituting, of course, for your domain.
+
+ We're going to use a
 [preseed](http://d-i.alioth.debian.org/manual/en.i386/apb.html) to automate the
 package configuration of gitolite for two reasons:
 
-* the default user in the package is 'gitolite' rather than 'git'; I _hate_ that
+* the default user in the package is 'gitolite' rather than 'git' (I _hate_ that)
   and
 * an admin ssh key must be supplied for the package to finish its installation.
 
@@ -303,8 +307,7 @@ From the root of your puppet configuration, install the gitolite module:
 
     $ git submodule add git://github.com/blt/puppet-gitolite.git modules/gitolite
 
-The node definition for 'git' is very short. shouldn't be much of a surprise,
-`manifests/nodes/git.pp`:
+The node definition for 'git' is very short. In `manifests/nodes/git.pp`:
 
     node 'git.troutwine.us' {
       include base
@@ -342,7 +345,7 @@ a bit long. The module, inspired by
 [ssh-auth](http://projects.reductivelabs.com/projects/puppet/wiki/Module_Ssh_Auth_Patterns),
 will build, sign and distribute certificates sufficient to run an encrypted
 internal network. It is _not_ a secure certificate authority for the wider
-internet--don't issue these things to hosts that have to rove or to, God forbid,
+internet--don't issue these things to hosts that have to rove or, God forbid, to
 a client. However, so long as you're able to keep the machine hosting the
 private keys secure--and we're going to install the keys to the puppet master,
 so you should--this will be just dandy. To be clear: __if an attacker gets
@@ -353,7 +356,7 @@ Why go to all the trouble of generating certificates for all clients and
 servers? Hopefully the benefit of running communications to a server daemon over
 an encrypted channel is obvious to you, but generating keys for a client, as
 well? Control, simply. The message bus will be used to cause sensitive tasks to
-kick off, mere encrypted channels do not deny unknown parties from establishing
+kick off; mere encrypted channels do not deny unknown parties from establishing
 connections and pumping messages through. The RabbitMQ setup advocated here
 will:
 
@@ -390,7 +393,7 @@ In `manifests/nodes.pp` add the following:
 
 All three nodes will be issued client certificates for RabbitMQ, placed in
 `/etc/rabbitmq/ssl/client`. The location is configurable, more nodes can be
-added and as can more services.
+added as can more services.
 
 Installing the RabbitMQ daemon is a relatively simple matter. Create an mq node
 definition, `manifests/nodes/mq.pp`:
@@ -436,10 +439,11 @@ goodies, one of which is [hare](https://github.com/blt/hare). In
 This is a bit long and I urge you to read the documentation provided with the
 puppet-traut module. Suffice it to say that all nodes will have traut installed,
 traut will connect to the RabbitMQ daemon on `mq0` over SSL (with a client
-certificate) and using the supplied password and username. __Be sure to change the
-value of `$traut_pass`, at least, in your setup.__
+certificate) and using the supplied password and username. __Be sure to change,
+at least, the value of `$traut_pass` in your setup.__
 
-In `manifests/nodes/git.pp` add:
+To enable specially coded messages on every push for the 'puppet repository, in
+`manifests/nodes/git.pp` add:
 
     # Ensure that on pushes into the 'puppet' git repository traut notifications
     # are sent out via the post-hook.
@@ -447,10 +451,9 @@ In `manifests/nodes/git.pp` add:
       mqpass => "${base::gitolite_posthook_password}",
     }
 
-to enable specially coded messages on every push for the 'puppet'
-repository. With that in mind, go ahead and _setup_ the 'puppet' repository by
-cloning gitolite-admin and adding the appropriate entries. Be sure to commit and
-push back your changes.
+With that in mind, go ahead and _setup_ the 'puppet' repository by cloning
+gitolite-admin and adding the appropriate entries. Be sure to commit and push
+back your changes.
 
 That done, in `manifests/nodes/mq.pp` add:
 
@@ -479,7 +482,7 @@ each system, as well as RabbitMQ on mq0. Depending on the order that `puppet
 agent` fires on your nodes you may need to run it several times so that ssl keys
 distribute properly. See the puppet-openssl documentation for more details.
 
-Before moving on, ensure that all nodes have 'mq0' resolves in DNS or is set in
+Before moving on, ensure that all nodes have 'mq0' resolves in DNS or are set in
 /etc/hosts; you can manage _that_ with puppet if you'd like. Add the following
 to `manifests/nodes.pp`:
 
@@ -504,8 +507,8 @@ substituting, of course, for your setup's IP addresses and domain name.
 
 ### At last: deploying
 
-The final piece to this article are shell-scripts that turn traut events into
-deployable code. I've rolled this into a puppet module as well:
+The final piece to this article are a series of shell-scripts that turn traut
+events into deployable code. I've rolled this into a puppet module as well:
 
     $ git submodule add git://github.com/blt/puppet-slugbuild.git modules/slugbuild
 
@@ -529,8 +532,8 @@ In `manifests/git.pp` add the following:
 the exact happenings are documented in the module. Hopefully you noticed that
 `slugbuild::resource::authorized_key` requires you specify an ssh public
 key. This key, specifically, is for the root puppet master user to the
-'slugbuild' user on the git node, that the puppet node might sync its slugs. In
-`manifests/nodes/puppet.pp` add:
+'slugbuild' user on the git node. Using this access, the puppet node's root will
+sync slugs. In `manifests/nodes/puppet.pp` add:
 
     # This key is generated so that the root user can pull source slugs from the
     # slugbuilder. Note, however, that the public key is _not_ automatically
@@ -573,9 +576,9 @@ latter half sets up puppet master as a slugbuild client to
 `git.troutwine.us`. Be sure to use the contents of `/root/.ssh/id_rsa.pub` as
 data to the key parameter of `slubuild::resource::authorized_key`.
 
-Redeploy your puppet configuration through the rsync daisy chains, run
+Redeploy your puppet configuration through the rsync daisy chains. Run
 puppet-agent on all your machines. Commit all of your changes. With everything
-in place, on the puppet master, remove `/etc/puppet` and push to the gitolite
+in place remove `/etc/puppet` on the puppet master and push to the gitolite
 repository you've created. After a few moments, you _should_ find that slugbuild
 on the git node has created slugs, these have been transferred over to the
 puppet node and the latest has been mounted as `/etc/puppet`. Subsequent commits

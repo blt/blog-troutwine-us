@@ -4,10 +4,10 @@ date: 2012/01/20
 tags: puppet
 ---
 
-When I was brought on to [CarePilot](https://www.carepilot.com) as Systems
+When I was brought on as [CarePilot](https://www.carepilot.com) as Systems
 Administrator / Operations Developer we ran on a single(!) box in Amazon's EC2,
 no redundancy and nothing in the way of configuration control. I kept nothing of
-that box--even moving away from EC2 to Rackspace--and CarePilot runs on kit
+that box--even moving away from EC2 to Rackspace. CarePilot runs on kit
 built up from scratch, all the way up and down from the DB replication and
 backups, to the application deployment process to high-level monitoring and
 notifications.  It was my goal at CarePilot to automate, within a reasonable
@@ -16,10 +16,10 @@ others I've picked up and made use of.
 
 While the CarePilot kit was custom crafted, I believe that it's component
 pieces--released under commercial-venture friendly open-source licenses--could
-be used as the basis of most any tech-startup. This is the first article in a
+be used as a base for most any tech-startup. This is the first article in a
 series that will document the kit I've produced, introducing some of the
-open-source bits of tech I've created and be a bit of a tutorial for those I
-merely make use of.
+open-source bits of tech I've created and server as a bit of a tutorial for
+those I merely make use of.
 
 If at the end of these articles you can't piece together a stable base for a new
 business let me know: _I wrote something wrong_.
@@ -32,15 +32,14 @@ READMORE
 
 <i>Kindly note, I don't speak for CarePilot. The opinions and preferences I
 express here are not necessarily representative of the views of CarePilot. I'm
-just a guy talking on his own into the void who happened to work with a great
-bunch of folks.</i>
+just a guy talking on his own.</i>
 
 ***
 
 Imagine that you're employee #3 of a startup and are getting pulled into more
-Ops work as load on your few EC2 boxes gets up high: all day you fiddle with
-this and that, then _bam_ one of the servers go offline and you have to piece a
-new image up by hand. The site is offline, meanwhile, and employees #1 and #2
+Ops work as the load on your few EC2 boxes gets high: all day you fiddle with
+this and that, then _bam_ one of the servers goes offline and you have to piece
+a new image up by hand. The site is offline, meanwhile, and employees #1 and #2
 can't help but give you the stink-eye. Or, imagine that you're the kind of
 person to release small profit generating web-apps every few months and one has
 finally taken off. Success! But the load on the $36 Heroku instance you're
@@ -49,13 +48,14 @@ toggles to meet the load, but you're going to lose profitability that way. Time
 to move to virtual hosting, keeping in mind that you _have_ to keep your Ops
 work to a minimum.
 
-What do you do, in either case? Use puppet. Puppet is a relatively easy to use
-configuration management tool, well documented and backed by a company of [nice
+What do you do, in either case? Use Puppet. Puppet is a relatively easy to use
+state management tool--that makes an excellent sideline into acting as a
+configuration tool--is well documented and backed by a company of [nice
 folks](http://puppetlabs.com/) and [nice
 users](http://groups.google.com/group/puppet-users). Puppet is _not_ an easy
-thing to bootstrap, on the other hand. This article, and the one that follows
-it, will walk you through getting a production-ready puppet setup bootstrapped,
-along with a few extra goodies that I _think_ you'll find very helpful.
+thing to bootstrap, however. This article, and the one that follows it, will
+walk you through getting a production-ready puppet setup bootstrapped, along
+with a few extra goodies that I _think_ you'll find very helpful.
 
 Should take a few hours. In this article I'll walk you through:
 
@@ -102,7 +102,7 @@ process of which will prime us for quite a bit of work later on.
 
 - - -
 
-<i>Now, before we go further, I suggest you get a virtual-machine setup
+<i>Before we go further, I suggest you get a virtual-machine setup
 going--or rent some servers in a cloud--and follow along. I've used Virtualbox
 on my personal machine to spot-check the writing of this series, though I won't
 provide instructions on its use. To mimic standard VPS system setup, configure
@@ -137,7 +137,7 @@ daemonization to a special-purpose tool?
 
 ### Installing Ruby
 
-It's the ill-named `ruby1.9.1` and `rubygems1.9.1` we want. In actually, these
+It's the ill-named `ruby1.9.1` and `rubygems1.9.1` we want. In actuality, these
 install, as of this writing, the _1.9.2_ series of interpreter. I'm sure there's
 an interesting story there.
 
@@ -148,8 +148,8 @@ we're going to need a compiler on our production systems. Possibly a bummer,
 depending on your environment. Being certified to handle credit card processing
 or to handle some gambling related matters--I'm vague on gambling, sorry--puts a
 C compiler or make facility on a production system right out. In general, sure,
-yeah, it's important to make your default system as secure as
-possible. Consider, though, that:
+it's important to make your default system as secure as possible. Consider,
+though, that:
 
 * the modern Debian system has, in its base install, several Turing-complete
   interpreters able to produce machine code,
@@ -167,9 +167,9 @@ of this one machine-code production vector--but I'm not convinced that the
 effort involved in that is rational given the slight nature of the hazard. It's
 unpleasant work and you'll spend a fair bit of time on it, continuously, but it
 can be done. I won't do it here and in this series I'll assume that you'll have
-installing the following on the base system:
+installed the following on the base system:
 
-    base:~# aptitude install ruby1.9.1-dev build-essential
+    base:~# aptitude install ruby1.9.1-dev build-essential libssl-dev
 
 To my knowledge there's no automatic alternatives system for ruby. Fun thing
 about Debian, though, is that it's:
@@ -272,9 +272,9 @@ If you're not so familiar with ruby-land, 'rack' is a ruby glue layer between
 many web-servers and, well, whatever you want to build on top of that
 layer. Rails3 is a rack library and puppet, too. What we're going to do is use
 the rackup file--'.ru' extension, by convention, which contains instructions for
-a rack aware web-server, like thin--shipped with Puppet and create several thin
-/ puppet master processes, load-balancing over them with nginx and managed by
-supervisord.
+a rack aware web-server, like thin--shipped with Puppet. Then we'll create
+several thin / puppet master processes, load-balancing over them with nginx and
+managed by supervisord.
 
 Installing thin is a breeze:
 
@@ -305,7 +305,7 @@ In `/etc/supervisor/conf.d/puppetmaster.conf` create a file with this content:
     startsecs=5
 
 Thin is run in development mode so that it will not daemonize. The supervisord
-option `numprocs` is used to cluster instances, at a small cost of RAM an
+option `numprocs` is used to cluster instances, at small cost of RAM and
 initial complexity. Be sure _not_ to spin these processes up as we do not yet
 have puppet configuration in place.
 
@@ -337,10 +337,10 @@ of this work.
 - - -
 
 <i>You might wonder why there have been two files placed in /etc/puppet but no
-version having been done of them, yet. The deployment process will assume that
-your puppet configuration is held in a git repository. I'll walk through this in
-the next article, introducing an interim deployment strategy as we work to get
-the kit online sufficient to support the final process.</i>
+versioning having been applied. The deployment process will assume that your
+puppet configuration is held in a git repository. I'll walk through this in the
+next article, introducing an interim deployment strategy as we work to get the
+kit online sufficient to support the final process.</i>
 
 <i>There won't be any more edits to files in /etc/puppet for the remainder of
 this article.</i>
@@ -354,7 +354,7 @@ message as the final output of this command:
     puppet:~# puppetmasterd --no-daemonize --debug
 
 Send the process SIGINT to return your terminal; you won't hurt anything. For
-restricted privileged writing of pidfiles, domain sockets and logs:
+restricted, privileged writing of pidfiles, domain sockets and logs:
 
     puppet:~# mkdir /var/run/puppet && chown puppet:puppet /var/run/puppet
     puppet:~# mkdir /var/log/puppet && chown puppet:puppet /var/log/puppet
@@ -451,7 +451,7 @@ Before you attempt to run the puppet agent, be aware that puppet master running
 on ruby 1.9.2 has an interesting
 [issue](http://projects.puppetlabs.com/issues/9084), which, since we're using a
 base system, is going to be easy enough to correct. Do all of the following,
-taking careful note of the _systems_ the commands are being run on.
+taking careful note of the _systems_ the commands are run on.
 
     puppet:~# ln -s /var/lib/puppet/ssl/certs/ca.pem $(openssl version -d|cut -d\" -f2)/certs/$(openssl x509 -hash -noout -in /var/lib/puppet/ssl/certs/ca.pem).0
 
@@ -461,7 +461,7 @@ You should be able to restart nginx and issue
 
 with no problems to report. The final message output will be:
 
-> Exiting; no certificate found and waitforcert is disabled
+    Exiting; no certificate found and waitforcert is disabled
 
 This means that the puppet agent did make a connection to the puppet master
 server but rejected sending any catalogs down as the key presented by the client

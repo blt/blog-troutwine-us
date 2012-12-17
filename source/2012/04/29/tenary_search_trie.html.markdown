@@ -17,7 +17,7 @@ Strings](http://www.cs.tufts.edu/~nr/comp150fp/archive/bob-sedgewick/fast-string
 I wrote an implementation from the paper with the intention of writing a
 Scrabble bot around it, but I'll probably not finish that project. I'm releasing
 the code, extracted from the Scrabble bot under the MIT license. Find it on
-(Github)[https://github.com/blt/tst]. Novel features:
+[Github](https://github.com/blt/tst). Novel features:
 
 * extensively typed
 * uses [proper](https://github.com/manopapad/proper) to test algorithm properties

@@ -1,7 +1,7 @@
-source 'http://rubygems.org'
+source :rubygems
 
-gem 'middleman', '~>2.0.14'
-gem 'middleman-blog'
-gem 'livereload'
-gem 'therubyracer'
-gem 'builder'
+gem "middleman", "~> 3.0.7"
+gem "middleman-blog", "~> 3.1.1"
+
+# For feed.xml.builder
+gem "builder", "~> 3.0.0"

@@ -1,40 +1,41 @@
 <!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Brian L. Troutwine | Blog</title>
-  <meta name="description" content="This is the blog of Brian L. Troutwine.">
-  <meta name="author" content="Brian L. Troutwine">
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title><%= data.page.title || "Brian L. Troutwine" %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 
-  <link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-  <%= stylesheet_link_tag 'base' %>
-  <%= favicon_tag 'favicon.png' %>
-</head>
+    <link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 
-<body>
-  <div class="container">
-  <%= partial "header" %>
+    <%= stylesheet_link_tag 'base' %>
+    <%= favicon_tag 'favicon.png' %>
+  </head>
+  <body>
+    <div class="container">
+      <%= partial "header" %>
 
-  <div class="content">
-        <% if is_blog_article? %>
-          <% content_for :blog_article, yield %>
-          <%= partial settings.blog_article_template %>
-        <% else %>
-          <%= yield %>
-        <% end %>
+      <div class="row">
+        <div class="span3">
+          <%= partial "aside" %>
+        </div>
 
-        <%= partial "aside" %>
-  </div>
+        <div class="span9" id="main" role="main">
+          <% if is_blog_article? %>
+            <% content_for :blog_article, yield %>
+            <%= partial "article" %>
+          <% else %>
+            <%= yield %>
+          <% end %>
+        </div>
+      </div>
 
-    <%= partial "footer" %>
-  </div>
-</body>
-
+      <%= partial "footer" %>
+    </div>
+  </body>
 </html>

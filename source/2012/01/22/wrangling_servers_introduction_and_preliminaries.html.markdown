@@ -1,6 +1,5 @@
 ---
 title: Wrangling Servers -- Introduction and Preliminaries
-date: 2012/01/20
 tags: puppet
 ---
 

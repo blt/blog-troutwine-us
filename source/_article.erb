@@ -1,0 +1,14 @@
+<article>
+  <header>
+    <hgroup>
+      <h1><%= current_article.title %></h1>
+      <h3>
+        <time datetime="<%= current_article.date %>">
+          <%= current_article.date.strftime('%d %B %Y') %>
+        </time>
+      </h3>
+    </hgroup>
+  </header>
+
+  <%= current_article.body %>
+</article>

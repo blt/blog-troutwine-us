@@ -1,2 +1,28 @@
 <aside>
+  <h2>Recent Articles</h2>
+  <ol>
+    <% blog.articles[0...10].each do |article| %>
+    <li><a href="<%= article.url %>"><%= article.title %></a></li>
+    <% end %>
+  </ol>
+
+  <h2>Tags</h2>
+  <ol>
+    <% if is_blog_article? %>
+      <% current_article.tags.each do |tag, articles| %>
+         <li><a href="<%= tag_path tag %>"><%= tag %></a></li>
+      <% end %>
+    <% else %>
+     <% blog.tags.each do |tag, articles| %>
+        <li><a href="<%= tag_path tag %>"><%= tag %> (<%= articles.size %>)</a></li>
+      <% end %>
+    <% end %>
+  </ol>
+
+  <h2>By Year</h2>
+  <ol>
+    <% blog.articles.group_by {|a| a.date.year }.each do |year, articles| %>
+    <li><a href="<%= blog_year_path year %>"><%= year %> (<%= articles.size %>)</a></li>
+    <% end %>
+  </ol>
 </aside>

@@ -1,9 +1,29 @@
-<ul class="index">
-<% data.blog.articles.each do |article| %>
-  <li>
-    <a class="title" href="<%= article.url %>"><%= article.title %></a>
-    <time datetime="<%= article.date %>"><%= article.date.strftime('%d %B %Y') %></time>
-    <%= article.summary %>
-  </li>
+---
+pageable: true
+per_page: 20
+---
+<% if paginate %>
+  <p>Page <%= page_number %> of <%= num_pages %></p>
+
+  <% if prev_page %>
+    <p><%= link_to 'Previous page', prev_page %></p>
+  <% end %>
 <% end %>
-</ul>
+
+<% page_articles.each_with_index do |article, i| %>
+<article>
+  <h1>
+    <%= link_to article.title, article %>
+  </h1>
+  <h3>
+    <time datetime="<%= article.date.strftime('%Y-%m-%d') %>"><%= article.date.strftime('%e %B %Y') %></time>
+  </h3>
+  <p><%= article.summary %></p>
+</article>
+<% end %>
+
+<% if paginate %>
+  <% if next_page %>
+    <p><%= link_to 'Next page', next_page %></p>
+  <% end %>
+<% end %>

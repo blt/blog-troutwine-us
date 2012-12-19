@@ -16,6 +16,8 @@ initial problem; a
 guarantee deterministic ordering of events, injecting the unexpected into what
 was previously perceived as a well-ordered environment.
 
+READMORE
+
 Emergent phenomena can be real tough to combat; crafting tools that create
 problems even as they solve others can be a heartbreaking experience.
 

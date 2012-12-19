@@ -14,6 +14,8 @@ described by Bentley and Sedgewick in their 1996 paper [Fast Algorithms for
 Searching and Sorting
 Strings](http://www.cs.tufts.edu/~nr/comp150fp/archive/bob-sedgewick/fast-strings.pdf), among other places.
 
+READMORE
+
 I wrote an implementation from the paper with the intention of writing a
 Scrabble bot around it, but I'll probably not finish that project. I'm releasing
 the code, extracted from the Scrabble bot under the MIT license. Find it on

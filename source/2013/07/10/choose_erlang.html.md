@@ -99,7 +99,7 @@ out, but they allow:
  * __Purely functional algorithmic work__: Erlang doesn't get as much attention
    here as Haskell or Lisp, but pattern matching plus higher-order functions is
    just wonderful. Write a lexer sometime in Erlang over binaries. You'll be
-   surprised out painless it is, even for complex for tokenizations.
+   surprised how painless it is, even for complex for tokenizations.
  * __Shared-nothing parallel computation__: Message passing combined with parallel
    execution of processes make this very simple. (You don't, though, have much
    say in how things get scheduled.)
@@ -107,7 +107,7 @@ out, but they allow:
    big, beefy machines, it started out in small telephony switches and retains
    low-memory usage characteristics. Compared to, say, the JVM you'll be
    surprised what mischief you can get up to in a handful of megabytes. (Robert
-   Virding has an LEGO robot running Erlang. [Video](http://vimeo.com/64642760)).
+   Virding has a LEGO robot running Erlang. [Video](http://vimeo.com/64642760)).
 
 ## What Erlang isn't Good For
 

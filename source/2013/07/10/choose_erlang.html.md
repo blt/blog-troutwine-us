@@ -9,6 +9,8 @@ increasingly, though I happen to think [LFE](http://lfe.github.io/) should be
 the new hotness--but have only used the language for small hobby projects or
 just read some books. "What do you use Erlang for?" I get asked.
 
+READMORE
+
 ## Of Syntax and Semantics
 
 Let's address something first: Erlang's syntax is unusual. It's prolog inspired

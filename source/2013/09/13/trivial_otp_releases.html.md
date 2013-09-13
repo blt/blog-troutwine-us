@@ -223,12 +223,6 @@ simple steps. Easy enough to be completely automated, simple enough to perform
 to be taught directly, rather than hiding OTP releases away at the end of books'
 Advanced Topics chapter.
 
-- - -
-
-As I write this, you need to use a specific relx version. See discussion
-[here](https://github.com/erlware/relx/issues/35). This fix should be merged
-into relx master as version 0.1.2 relatively soon.
-
 [^clusternote]: I originally wrote "together on the same VM" but Erlang
 clustering makes this not true. A release consisting of applications `A` and `B`
 across clustered nodes `N` and `M` can have `A` run on `N` and `B` run on `M`.

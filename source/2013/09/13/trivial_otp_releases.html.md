@@ -228,7 +228,7 @@ chapter of the _OTP Design Principles_ we'll have to place this tarball in
 
 Here's the upgrade:
 
-    > /tmp/bin/beat upgrade "0.1.1/beat"
+    > /tmp/beat/bin/beat upgrade "0.1.1/beat"
     Unpacked Release "0.1.1"
     Installed Release "0.1.1"
     Made Release "0.1.1" Permanent

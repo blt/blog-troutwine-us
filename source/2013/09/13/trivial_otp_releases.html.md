@@ -100,6 +100,37 @@ out to be relatively small. You can see it
 The careful reader will notice that I corrected a bug in the beater's
 `change_code/3`, but the principle is the same[^reminder].
 
+- - -
+
+**EDIT (September 14, 2013)**: As pointed out by
+[Per Melin](https://twitter.com/pmelin) on Twitter[^noappupdiff], the above diff
+is missing the most vital asset of the whole process: the `beat_core` appup.
+That's absolutely my fault; the development of `beat` was rather tortured. You
+_must_ include an [appup file](http://www.erlang.org/doc/man/appup.html) in the
+release applications' ebin directories. Here's
+[`apps/beat_core/ebin/beat_core.appup`](https://github.com/blt/beat/blob/a2620c93e7982d11315167dd087fe09f09ab1e57/apps/beat_core/ebin/beat_core.appup):
+
+    {"2013.2",
+        [{"2013.1", [
+            {update,beat_core_beater,{advanced,[from1to2]}}
+        ]}],
+        [{"2013.1",[
+            {update,beat_core_beater,{advanced,[from2to1]}}
+        ]}]
+    }.
+
+Simple stuff for `beat`. Per Melin also noted that I am "glossing over the
+arguably trickiest part: the appup," and that "[f]or non-trivial apps you must
+also specify module deps and more."[^glossingover] I didn't get into it here
+because, well, `beat` is intentionally a trivial app.
+
+Please be advised, complicated applications can and probably will have
+complicated appups. The
+[Appup Cookbook](http://www.erlang.org/doc/design_principles/appup_cookbook.html)
+has more.
+
+- - -
+
 The main take-away here is that a well managed upgrade is deliberate
 manipulation of state across releases and some grunt work bumping version
 numbers here and there. No more.
@@ -222,6 +253,10 @@ Wham and that's it! It's an uninterrupted upgrade of a live system in a few
 simple steps. Easy enough to be completely automated, simple enough to perform
 to be taught directly, rather than hiding OTP releases away at the end of books'
 Advanced Topics chapter.
+
+[^noappupdiff]: [https://twitter.com/pmelin/status/378886746231939072](https://twitter.com/pmelin/status/378886746231939072)
+
+[^glossingover]: [https://twitter.com/pmelin/status/378885781286178816](https://twitter.com/pmelin/status/378885781286178816)
 
 [^clusternote]: I originally wrote "together on the same VM" but Erlang
 clustering makes this not true. A release consisting of applications `A` and `B`

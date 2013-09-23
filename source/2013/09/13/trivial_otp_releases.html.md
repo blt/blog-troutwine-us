@@ -14,6 +14,15 @@ start.
 
 READMORE
 
+- - -
+
+**EDIT (September 23, 2013)**: This article targets relx version
+[0.2.0](https://github.com/erlware/relx/releases/tag/0.2.0). As of 0.3.0 the
+syntax for upgrading/downgrading has changed to be simply `install VSN_NUMBER`.
+This change thanks to [Richard Jones](https://twitter.com/metabrew).
+
+- - -
+
 ## On no-downtime releases
 
 I've got two special terms to introduce. An Erlang "application" is synoymous to

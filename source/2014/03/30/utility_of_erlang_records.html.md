@@ -102,10 +102,9 @@ replaced by maps once the initial "replace all the records!" euphoria dies down
 a bit. I know _I_ am going to be passing a number of options arguments as maps
 once R17 is widely used enough in production. I further expect to see many
 large, unwieldy records hidden behind accessor modules converted to maps as
-these modules are already take care of the integrity of the data.
-Intra-application, I expect records will remain largely untouched.
-(Inter-application records are a form of wicked tight coupling, but that's
-another post.)
+these modules already take care of the integrity of the data. Intra-application,
+I expect records will remain largely untouched. (Inter-application records are a
+form of wicked tight coupling, but that's another post.)
 
 In short:
 
